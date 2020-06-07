@@ -1,8 +1,9 @@
-FROM php:fpm
+FROM php:7.4-fpm
 
 RUN apt-get update
 RUN apt-get install -y  git-all \
-                        zlib1g-dev
+                        zlib1g-dev \
+                        libonig-dev
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

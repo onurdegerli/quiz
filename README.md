@@ -1,15 +1,13 @@
 ## Requirements
 
-* Computer :) (Linux based is recommended.)
-* Terminal (If you use MacOS, iTerm is recommended.)
 * Git client
-* Docker (version > 18.01)
+* Docker
 
 ## How to install the project?
 
-1 - Clone the project from BitBucket.
+1 - Clone the project.
 
-```git clone https://onurdegerli@bitbucket.org/onurdegerli/quiz.git```
+```git clone https://github.com/onurdegerli/quiz.git```
 
 2 - Change directory to your project home.
 
@@ -17,11 +15,11 @@
 
 3 - In your project folder, run the command below:
 
-```bash start.sh```
+```bash app.sh start```
 
 4 - Open the php container and run migrates/seeds.
 
-```docker exec -it quiz_php /bin/bash```
+```bash app.sh php```
 
 ```vendor/bin/phinx migrate```
 
@@ -29,7 +27,7 @@
 
 ## How to stop the project?
 
-```bash stop.sh```
+```bash app.sh stop```
 
 ## How to open the project in browser?
 
