@@ -1,4 +1,5 @@
 <?php
+
 namespace Core;
 
 use PDO;
@@ -10,11 +11,6 @@ abstract class Db
 {
     static $db = null;
 
-    /**
-     * Get the PDO database connection
-     *
-     * @return mixed
-     */
     public static function getInstance(string $host, string $database, string $user, string $password)
     {
         if (null === self::$db) {

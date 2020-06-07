@@ -1,97 +1,65 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Models\ModelFactory;
+use App\Services\AnswerService;
+use App\Services\QuestionService;
+use DI\Container;
 use GUMP;
 
 class QuizController extends Controller
 {
-    /**
-     * Question model.
-     *
-     * @var \App\Models\Question
-     */
-    private $question;
+    private QuestionService $questionService;
 
-    /**
-     * Answer model.
-     *
-     * @var \App\Models\Answer
-     */
-    private $answer;
+    private AnswerService $answerService;
 
-    /**
-     * UserAnswer model.
-     *
-     * @var \App\Models\UserAnswer
-     */
-    private $userAnswer;
-
-    /**
-     * Constructor
-     *
-     * @param \DI\Container $container
-     */
-    public function __construct(\DI\Container $container)
+    public function __construct(Container $container)
     {
         parent::__construct($container);
 
-        $this->question = ModelFactory::build('question', $container->get('db'));
-        $this->answer = ModelFactory::build('answer', $container->get('db'));
-        $this->userAnswer = ModelFactory::build('userAnswer', $container->get('db'));
+        $this->questionService = $container->get('QuestionService');
+        $this->answerService = $container->get('AnswerService');
     }
 
-    /**
-     * Get question by quiz.
-     *
-     * @param array $request
-     * @param array $slugs
-     * @return void
-     */
     public function questionAction(array $request, array $slugs): void
     {
         $quizId = $slugs['id'];
-        $question = [];
-        $this->question->setQuizId($quizId);
 
         if (!empty($request['get']['current'])) {
-            $this->question->setId($request['get']['current']);
-            $question = $this->question->getFirstQuestionByQuizIdGreaterThan();
+            $questionId = $request['get']['current'];
 
-            $totalAnswers = $this->question->countQuestionByQuizId();
-            $remainingQuestionCount = $this->question->countRemainingQuestionByQuizId();
-            $answeredQuestionCount = $totalAnswers - $remainingQuestionCount;
-            $progressRate = round((($answeredQuestionCount * 100) / $totalAnswers), 0);
+            $question = $this->questionService
+                ->getFirstQuestionByQuizIdGreaterThan($questionId, $quizId);
+            $progressRate = $this->questionService->getProgressRate($questionId, $quizId);
         } else {
-            $question = $this->question->getFirstQuestionByQuizId();
+            $question = $this->questionService->getFirstQuestionByQuizId($quizId);
             $progressRate = 0;
         }
 
         if (!empty($question)) {
-            $this->answer->setQuestionId($question['id']);
-            $question['answers'] = $this->answer->getByQuestionId();
+            $question['answers'] = $this->answerService->getByQuestionId($question['id']);
         }
 
-        $this->viewJson([
-            'question' => $question,
-            'progressRate' => $progressRate,
-        ]);
+        $this->viewJson(
+            [
+                'question' => $question,
+                'progressRate' => $progressRate,
+            ]
+        );
     }
 
-    /**
-     * Store answer given by user.
-     *
-     * @param array $request
-     * @return void
-     */
     public function answerAction(array $request): void
     {
-        $isValid = GUMP::is_valid($request['payload'], array(
-            'user' => 'required|numeric',
-            'quiz' => 'required|numeric',
-            'question' => 'required|numeric',
-            'answer' => 'required|numeric',
-        ));
+        $isValid = GUMP::is_valid(
+            $request['payload'],
+            array(
+                'user' => 'required|numeric',
+                'quiz' => 'required|numeric',
+                'question' => 'required|numeric',
+                'answer' => 'required|numeric',
+            )
+        );
 
         $response = [];
         if (true !== $isValid) {
@@ -105,21 +73,19 @@ class QuizController extends Controller
             $questionId = $request['payload']['question'];
             $answerId = $request['payload']['answer'];
 
-            $this->answer->setId($answerId);
-            $this->answer->setQuestionId($questionId);
-            $this->answer->setQuizId($quizId);
-            $isRelated = $this->answer->checkIfAnswerRelatedToQuizAndQuestion();
-    
-            if (TRUE === $isRelated) {
-                $this->userAnswer->setUserId((int)$userId);
-                $this->userAnswer->setQuizId($quizId);
-                $this->userAnswer->setQuestionId($questionId);
-                $this->userAnswer->setAnswerId($answerId);
-                $this->userAnswer->setAnswer($this->answer);
-    
+            $isRelated = $this->answerService
+                ->checkIfAnswerRelatedToQuizAndQuestion($answerId, $questionId, $quizId);
+
+            if (true === $isRelated) {
                 $response = [
                     'is_valid' => true,
-                    'data' => $this->userAnswer->save()
+                    'data' => $this->answerService
+                        ->save(
+                            $userId,
+                            $quizId,
+                            $questionId,
+                            $answerId
+                        )
                 ];
             } else {
                 $response = [

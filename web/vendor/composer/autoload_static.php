@@ -4,12 +4,14 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticIniteb6baa5973e4141f5b15d9877aec92c5
+class ComposerStaticInit05a97339250690f0c928a96e78656aa3
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '72142d7b40a3a0b14e91825290b5ad82' => __DIR__ . '/..' . '/cakephp/core/functions.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         '028fdea3165c4ba1ecccc83b7fec69fc' => __DIR__ . '/..' . '/cakephp/collection/functions.php',
         '948ad5488880985ff1c06721a4e447fe' => __DIR__ . '/..' . '/cakephp/utility/bootstrap.php',
@@ -21,10 +23,12 @@ class ComposerStaticIniteb6baa5973e4141f5b15d9877aec92c5
         'S' => 
         array (
             'Symfony\\Polyfill\\Util\\' => 22,
+            'Symfony\\Polyfill\\Php80\\' => 23,
+            'Symfony\\Polyfill\\Php73\\' => 23,
             'Symfony\\Polyfill\\Php56\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
-            'Symfony\\Contracts\\' => 18,
+            'Symfony\\Contracts\\Service\\' => 26,
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\Filesystem\\' => 29,
             'Symfony\\Component\\Console\\' => 26,
@@ -33,6 +37,8 @@ class ComposerStaticIniteb6baa5973e4141f5b15d9877aec92c5
         ),
         'P' => 
         array (
+            'Psr\\SimpleCache\\' => 16,
+            'Psr\\Log\\' => 8,
             'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
             'PhpDocReader\\' => 13,
@@ -41,6 +47,10 @@ class ComposerStaticIniteb6baa5973e4141f5b15d9877aec92c5
         'I' => 
         array (
             'Invoker\\' => 8,
+        ),
+        'G' => 
+        array (
+            'GUMP\\' => 5,
         ),
         'F' => 
         array (
@@ -54,6 +64,7 @@ class ComposerStaticIniteb6baa5973e4141f5b15d9877aec92c5
         array (
             'Core\\' => 5,
             'Cake\\Utility\\' => 13,
+            'Cake\\Log\\' => 9,
             'Cake\\Datasource\\' => 16,
             'Cake\\Database\\' => 14,
             'Cake\\Core\\' => 10,
@@ -71,6 +82,14 @@ class ComposerStaticIniteb6baa5973e4141f5b15d9877aec92c5
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-util',
         ),
+        'Symfony\\Polyfill\\Php80\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
+        ),
+        'Symfony\\Polyfill\\Php73\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php73',
+        ),
         'Symfony\\Polyfill\\Php56\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php56',
@@ -83,9 +102,9 @@ class ComposerStaticIniteb6baa5973e4141f5b15d9877aec92c5
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
-        'Symfony\\Contracts\\' => 
+        'Symfony\\Contracts\\Service\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/contracts',
+            0 => __DIR__ . '/..' . '/symfony/service-contracts',
         ),
         'Symfony\\Component\\Yaml\\' => 
         array (
@@ -105,7 +124,15 @@ class ComposerStaticIniteb6baa5973e4141f5b15d9877aec92c5
         ),
         'SuperClosure\\' => 
         array (
-            0 => __DIR__ . '/..' . '/jeremeamia/SuperClosure/src',
+            0 => __DIR__ . '/..' . '/jeremeamia/superclosure/src',
+        ),
+        'Psr\\SimpleCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'Psr\\Container\\' => 
         array (
@@ -127,6 +154,10 @@ class ComposerStaticIniteb6baa5973e4141f5b15d9877aec92c5
         array (
             0 => __DIR__ . '/..' . '/php-di/invoker/src',
         ),
+        'GUMP\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/wixel/gump/src',
+        ),
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
@@ -142,6 +173,10 @@ class ComposerStaticIniteb6baa5973e4141f5b15d9877aec92c5
         'Cake\\Utility\\' => 
         array (
             0 => __DIR__ . '/..' . '/cakephp/utility',
+        ),
+        'Cake\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cakephp/log',
         ),
         'Cake\\Datasource\\' => 
         array (
@@ -169,11 +204,18 @@ class ComposerStaticIniteb6baa5973e4141f5b15d9877aec92c5
         ),
     );
 
+    public static $classMap = array (
+        'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
+        'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
+        'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticIniteb6baa5973e4141f5b15d9877aec92c5::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticIniteb6baa5973e4141f5b15d9877aec92c5::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit05a97339250690f0c928a96e78656aa3::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit05a97339250690f0c928a96e78656aa3::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit05a97339250690f0c928a96e78656aa3::$classMap;
 
         }, null, ClassLoader::class);
     }

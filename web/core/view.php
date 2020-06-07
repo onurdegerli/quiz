@@ -1,4 +1,5 @@
 <?php
+
 namespace Core;
 
 /**
@@ -6,37 +7,30 @@ namespace Core;
  */
 class View
 {
-    const BASE_PATH = '/../app/views/';
-    const BASE_LAYOUTS_PATH = '/../app/views/layouts/base.php';
-
-    public function __construct($loyout = '')
-    {
-        if (!empty($layout)) {
-            $this->layout = $layout;
-        }
-    }
+    private const BASE_PATH = '/../app/views/';
+    private const BASE_LAYOUTS_PATH = '/../app/views/layouts/base.php';
 
     public static function render(string $view, array $params = [])
     {
         $layout = __DIR__ . self::BASE_LAYOUTS_PATH;
         if (!file_exists($layout)) {
-            throw new \Exception("$this->layout layout not found!");
+            throw new \Exception("$layout layout not found!");
         }
 
         $file = __DIR__ . self::BASE_PATH . $view . '.php';
-
         if (file_exists($file)) {
             $body = self::requireToVar($file, $params);
             if (!empty($params['config'])) {
                 extract($params['config'], EXTR_OVERWRITE);
             }
+
             require_once $layout;
         } else {
             throw new \Exception("$file not found!");
         }
     }
 
-    public static function renderView(string $view, array $params = [])
+    public static function renderView(string $view, array $params = []): void
     {
         $file = __DIR__ . self::BASE_PATH . $view . '.php';
 
@@ -48,11 +42,12 @@ class View
         }
     }
 
-    private static function requireToVar($file, $params)
+    private static function requireToVar($file, $params): string
     {
         ob_start();
         extract($params, EXTR_OVERWRITE);
         require_once $file;
+
         return ob_get_clean();
     }
 

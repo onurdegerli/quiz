@@ -1,3 +1,7 @@
+# What is this?
+
+It is a simple PHP application which runs with Docker from scratch.
+
 ## Requirements
 
 * Git client
@@ -17,7 +21,12 @@
 
 ```bash app.sh start```
 
-4 - Open the php container and run migrates/seeds.
+4 - Run the composer.
+
+```cd web```
+```composer update```
+
+5 - Open the php container and run migrates/seeds.
 
 ```bash app.sh php```
 
@@ -38,10 +47,6 @@
 ## Troubleshooting
 
 - If you would like to install DB directly, please import MySQL dump file which is `quiz.sql` under the project folder.
-
-- If your Docker version is not updated, please update the docker-compose.yml version like below.
-
-```version: '2'```
 
 - If you need to rollback all migrations, please run the command below in `quiz_php` container.
 

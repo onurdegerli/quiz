@@ -1,15 +1,17 @@
 <?php
 namespace Core;
 
+use DI\Container;
+
 class Router
 {
-    private $container;
+    private Container $container;
 
-    private $routes = [];
+    private array $routes = [];
 
-    private $controllerPath = "\App\Controllers\\";
+    private string $controllerPath = "\App\Controllers\\";
 
-    public function __construct(\DI\Container $container, array $routes)
+    public function __construct(Container $container, array $routes)
     {
         $this->container = $container;    
         $this->routes = $routes;    
@@ -91,7 +93,7 @@ class Router
         return $request;
     }
 
-    private function getRequestPayload()
+    private function getRequestPayload(): array
     {
         $jsonStr = file_get_contents('php://input');
         if (empty($jsonStr)) {

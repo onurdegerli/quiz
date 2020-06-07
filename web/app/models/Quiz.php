@@ -1,14 +1,8 @@
 <?php
+
 namespace App\Models;
 
-use App\Models\Model;
-
-class Quiz extends Model
+class Quiz
 {
-    /**
-     * Model table.
-     *
-     * @var string
-     */
-    protected $table = 'quizzes';
+    public const TABLE_NAME = 'quizzes';
 }
