@@ -24,6 +24,7 @@ It is a simple PHP application which runs with Docker from scratch.
 4 - Run the composer.
 
 ```cd web```
+
 ```composer update```
 
 5 - Open the php container and run migrates/seeds.
