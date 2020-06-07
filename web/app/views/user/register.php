@@ -1,9 +1,3 @@
-<?php
-/**
- * $quizzes array
- */
-?>
-
 <div class="jumbotron">
     <h1 class="mt-5">QUIZ</h1>
     <?php if(!empty($quizzes)) { ?>

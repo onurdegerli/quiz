@@ -19,9 +19,9 @@ class AnswerRepository extends BaseRepository
         $stmt = $this->db->prepare(
             "SELECT COUNT(1) 
             FROM $this->table a
-            LEFT JOIN questions qe
+            INNER JOIN questions qe
                 ON a.question_id = qe.id
-            LEFT JOIN quizzes qi
+            INNER JOIN quizzes qi
                 ON qe.quiz_id = qi.id
             WHERE a.id = :answer_id 
                 AND qe.id = :question_id
@@ -37,10 +37,10 @@ class AnswerRepository extends BaseRepository
         return $count > 0;
     }
 
-    public function isCorrect(int $answerId): int
+    public function isCorrect(int $answerId): bool
     {
         $row = $this->get($answerId);
 
-        return $row['is_correct'];
+        return (bool)$row['is_correct'];
     }
 }

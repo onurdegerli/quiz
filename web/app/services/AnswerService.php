@@ -45,7 +45,7 @@ class AnswerService
             'quiz_id' => $quizId,
             'question_id' => $questionId,
             'answer_id' => $answerId,
-            'is_answer_correct' => $this->answerRepository->isCorrect($answerId),
+            'is_answer_correct' => $this->answerRepository->isCorrect($answerId) ? 1 : 0,
         ];
 
         return $this->userAnswerRepository->insert($data);
