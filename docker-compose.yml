@@ -1,0 +1,59 @@
+version: '3.7'
+services:
+  web:
+    container_name: quiz_web
+    image: nginx
+    ports:
+      - "80:81"
+    volumes:
+      - ./web:/var/www/html
+      - ./conf.d:/etc/nginx/conf.d
+    links:
+      - php
+    networks:
+      - quiz
+  php:
+    container_name: quiz_php
+    build:
+      context: ./
+      dockerfile: Dockerfile-phpfpm
+    volumes:
+      - ./web:/var/www/html
+    networks:
+      - quiz
+    links:
+      - db
+    depends_on:
+      - db
+    expose:
+      - 9000
+  db:
+    image: mysql:5.7
+    container_name: quiz_db
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: quiz
+    networks:
+      - quiz
+  pma:
+    image: phpmyadmin/phpmyadmin
+    container_name: quiz_pma
+    restart: always
+    links:
+      - db
+    depends_on:
+      - db
+    ports:
+      - "8184:80"
+    environment:
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: root
+      PMA_ARBITRARY: 1
+    networks:
+      - quiz
+networks:
+  quiz:
+    driver: bridge

@@ -1,0 +1,16 @@
+{
+    "minimum-stability": "dev",
+    "require": {
+        "robmorgan/phinx": "^0.10.6",
+        "twbs/bootstrap": "^3.4@dev",
+        "fzaninotto/faker": "^1.9@dev",
+        "php-di/php-di": "dev-master",
+        "wixel/gump": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+             "Core\\": "core/",
+             "App\\": "app/"
+        }
+    }
+}
