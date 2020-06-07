@@ -2,9 +2,6 @@
 
 namespace Core;
 
-/**
- * View class
- */
 class View
 {
     private const BASE_PATH = '/../app/views/';

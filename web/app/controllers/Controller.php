@@ -2,12 +2,13 @@
 namespace App\Controllers;
 
 use Core\View;
+use DI\Container;
 
 class Controller 
 {
     protected $config = [];
 
-    public function __construct(\DI\Container $container)
+    public function __construct(Container $container)
     {
         $this->config = $container->get('config');
     }

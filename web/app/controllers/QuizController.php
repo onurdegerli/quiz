@@ -61,7 +61,6 @@ class QuizController extends Controller
             )
         );
 
-        $response = [];
         if (true !== $isValid) {
             $response = [
                 'is_valid' => false,
