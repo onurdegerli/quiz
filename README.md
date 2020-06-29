@@ -17,17 +17,21 @@ It is a simple PHP application which runs with Docker from scratch.
 
 ```cd ~/quiz```
 
-3 - In your project folder, run the command below:
+3 - Under the `app` folder, copy `.env.example` as `.env` and update the configurations for your local environment.
+
+4 - Under the `app` folder, copy `phinx.yml.example` as `phinx.yml` and update the configurations for your local environment.
+
+5 - In your project folder, run the command below:
 
 ```bash app.sh start```
 
-4 - Run the composer.
+6 - Run the composer.
 
 ```cd app```
 
 ```composer update```
 
-5 - Open the php container and run migrates/seeds.
+7 - Open the php container and run migrates/seeds.
 
 ```bash app.sh php```
 
