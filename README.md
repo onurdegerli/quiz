@@ -27,9 +27,9 @@ It is a simple PHP application which runs with Docker from scratch.
 
 6 - Run the composer.
 
-```cd app```
+```bash app.sh php```
 
-```composer update```
+```composer install```
 
 7 - Open the php container and run migrates/seeds.
 
