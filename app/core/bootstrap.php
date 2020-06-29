@@ -2,7 +2,7 @@
 
 namespace Core;
 
-use App\Core\Exceptions\RouteException;
+use Core\Exceptions\RouteException;
 use DI\Container;
 use Dotenv\Dotenv;
 use Dotenv\Exception\InvalidPathException;

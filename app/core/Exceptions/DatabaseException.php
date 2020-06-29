@@ -4,7 +4,7 @@ namespace Core\Exceptions;
 
 use Exception;
 
-class ViewException extends Exception
+class DatabaseException extends Exception
 {
 
 }

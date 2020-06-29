@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Core;
+namespace Core\Databases\Mysql;
 
+use Core\Databases\Database;
+use Core\Exceptions\DatabaseException;
+use Exception;
 use PDO;
 
-/**
- * Database connection class
- */
-abstract class Db
+final class Mysql implements Database
 {
     static $db = null;
 
@@ -24,7 +24,7 @@ abstract class Db
             try {
                 self::$db = new PDO($dsn, $user, $password, $options);
             } catch (Exception $e) {
-                throw new \Exception($e->getMessage());
+                throw new DatabaseException($e->getMessage());
             }
         }
 

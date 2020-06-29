@@ -2,7 +2,7 @@
 
 namespace Core;
 
-use App\Core\Exceptions\ViewException;
+use Core\Exceptions\ViewException;
 
 class View
 {

@@ -1,3 +1,10 @@
 <?php declare(strict_types=1);
 
-// Some generic functions
+if (!function_exists('dd')) {
+    function dd($data)
+    {
+        echo "<pre>";
+        print_r($data);
+        exit;
+    }
+}
