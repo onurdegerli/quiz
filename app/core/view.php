@@ -46,10 +46,4 @@ class View
 
         return ob_get_clean();
     }
-
-    public static function renderJson(array $params = [])
-    {
-        header('Content-Type: application/json');
-        echo json_encode($params);
-    }
 }
