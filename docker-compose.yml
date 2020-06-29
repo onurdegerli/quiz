@@ -6,7 +6,7 @@ services:
     ports:
       - "80:81"
     volumes:
-      - ./web:/var/www/html
+      - ./app:/var/www/html
       - ./conf.d:/etc/nginx/conf.d
     links:
       - php
@@ -18,7 +18,7 @@ services:
       context: ./
       dockerfile: Dockerfile-phpfpm
     volumes:
-      - ./web:/var/www/html
+      - ./app:/var/www/html
     networks:
       - quiz
     links:

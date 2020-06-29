@@ -23,7 +23,7 @@ It is a simple PHP application which runs with Docker from scratch.
 
 4 - Run the composer.
 
-```cd web```
+```cd app```
 
 ```composer update```
 
@@ -31,7 +31,7 @@ It is a simple PHP application which runs with Docker from scratch.
 
 ```bash app.sh php```
 
-```vendor/bin/phinx migrate```
+```vendor/bin/phinx migrate -e development```
 
 ```vendor/bin/phinx seed:run```
 

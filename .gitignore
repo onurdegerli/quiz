@@ -1,2 +1,4 @@
 .idea/
-web/vendor/
+app/vendor
+app/.env
+app/phinx.yml

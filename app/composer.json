@@ -1,0 +1,18 @@
+{
+    "minimum-stability": "dev",
+    "require": {
+        "robmorgan/phinx": "^0.12.3",
+        "twbs/bootstrap": "^5.0.0",
+        "fzaninotto/faker": "^1.9.1",
+        "php-di/php-di": "^6.2.1",
+        "wixel/gump": "dev-master",
+        "vlucas/phpdotenv": "^5.0@dev",
+        "symfony/yaml": "^5.2@dev"
+    },
+    "autoload": {
+        "psr-4": {
+             "Core\\": "core/",
+             "App\\": "app/"
+        }
+    }
+}
