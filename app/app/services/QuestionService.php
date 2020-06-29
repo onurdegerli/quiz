@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Services;
 
@@ -31,7 +31,7 @@ class QuestionService
     public function getFirstQuestionByQuizIdGreaterThan(int $id, int $quizId): ?array
     {
         return $this->questionRepository
-            ->getByRelationIdGreaterThan('quiz_id', $quizId, $id);
+            ->getByRelationIdGreaterThan('quiz_id', $quizId, $id) ?: null;
     }
 
     public function countQuestionByQuizId(int $quizId): int

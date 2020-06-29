@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Repositories;
 
@@ -39,7 +39,7 @@ class AnswerRepository extends BaseRepository
 
     public function isCorrect(int $answerId): bool
     {
-        $row = $this->get($answerId);
+        $row = $this->get((int)$answerId);
 
         return (bool)$row['is_correct'];
     }

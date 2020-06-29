@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -22,10 +22,10 @@ class QuizController extends Controller
 
     public function questionAction(array $request, array $slugs): void
     {
-        $quizId = $slugs['id'];
+        $quizId = (int)$slugs['id'];
 
         if (!empty($request['get']['current'])) {
-            $questionId = $request['get']['current'];
+            $questionId = (int)$request['get']['current'];
 
             $question = $this->questionService
                 ->getFirstQuestionByQuizIdGreaterThan($questionId, $quizId);
@@ -65,10 +65,10 @@ class QuizController extends Controller
                 'messages' => $isValid,
             ];
         } else {
-            $userId = $request['payload']['user'];
-            $quizId = $request['payload']['quiz'];
-            $questionId = $request['payload']['question'];
-            $answerId = $request['payload']['answer'];
+            $userId = (int)$request['payload']['user'];
+            $quizId = (int)$request['payload']['quiz'];
+            $questionId = (int)$request['payload']['question'];
+            $answerId = (int)$request['payload']['answer'];
 
             $isRelated = $this->answerService
                 ->checkIfAnswerRelatedToQuizAndQuestion($answerId, $questionId, $quizId);

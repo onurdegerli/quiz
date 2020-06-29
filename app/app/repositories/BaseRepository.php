@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Repositories;
 
@@ -37,7 +37,7 @@ abstract class BaseRepository
             $stmt->execute(array_values($data));
 
             $lastInsertedId = $this->db->lastInsertId();
-            $row = $this->get($lastInsertedId);
+            $row = $this->get((int)$lastInsertedId);
 
             $this->db->commit();
 

@@ -1,6 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Core;
+
+use App\Core\Exceptions\ViewException;
 
 class View
 {
@@ -11,7 +13,7 @@ class View
     {
         $layout = __DIR__ . self::BASE_LAYOUTS_PATH;
         if (!file_exists($layout)) {
-            throw new \Exception("$layout layout not found!");
+            throw new ViewException("$layout layout not found!");
         }
 
         $file = __DIR__ . self::BASE_PATH . $view . '.php';
@@ -23,7 +25,7 @@ class View
 
             require_once $layout;
         } else {
-            throw new \Exception("$file not found!");
+            throw new ViewException("$file not found!");
         }
     }
 
@@ -35,7 +37,7 @@ class View
             extract($params, EXTR_OVERWRITE);
             require_once $file;
         } else {
-            throw new \Exception("$file not found!");
+            throw new ViewException("$file not found!");
         }
     }
 

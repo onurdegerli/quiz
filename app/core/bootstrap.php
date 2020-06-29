@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Core;
 
@@ -37,9 +37,9 @@ class Bootstrap
         error_reporting(E_ALL | ~E_NOTICE);
 
         if ($_ENV['DEBUG'] === 'true') {
-            ini_set('display_errors', 1);
+            ini_set('display_errors', '1');
         } else {
-            ini_set('display_errors', 0);
+            ini_set('display_errors', '0');
         }
     }
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -64,8 +64,8 @@ class UserController extends Controller
 
     public function resultAction(array $request, array $slugs): void
     {
-        $userId = $slugs['id'];
-        $quizId = $slugs['quiz_id'];
+        $userId = (int)$slugs['id'];
+        $quizId = (int)$slugs['quiz_id'];
 
         $name = $this->userService->getNameById($userId);
         $correctAnswer = $this->answerService->getUserCorrectAnswersCount($userId, $quizId);
