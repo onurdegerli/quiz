@@ -22,7 +22,7 @@ class Dependency
         $builder = new ContainerBuilder();
         $container = $builder->build();
 
-        $databaseConnection = (new ConnectionFactory())->get($_ENV['DBMS']);
+        $databaseConnection = (new ConnectionFactory())->get($_ENV['DB_CONNECTION']);
         $container->set(
             'db',
             $databaseConnection::getInstance(

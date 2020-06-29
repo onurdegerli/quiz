@@ -36,6 +36,8 @@ class Bootstrap
     {
         error_reporting(E_ALL | ~E_NOTICE);
 
+        // TODO: a logging service(MONOLOG, etc) might be implemented.
+
         if ($_ENV['DEBUG'] === 'true') {
             ini_set('display_errors', '1');
         } else {

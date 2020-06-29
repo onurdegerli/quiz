@@ -13,19 +13,16 @@ class View
     {
         $layout = __DIR__ . self::BASE_LAYOUTS_PATH;
         if (!file_exists($layout)) {
-            throw new ViewException("$layout layout not found!");
+            throw new ViewException("$layout layout not found!", 500);
         }
 
         $file = __DIR__ . self::BASE_PATH . $view . '.php';
         if (file_exists($file)) {
             $body = self::requireToVar($file, $params);
-            if (!empty($params['config'])) {
-                extract($params['config'], EXTR_OVERWRITE);
-            }
 
             require_once $layout;
         } else {
-            throw new ViewException("$file not found!");
+            throw new ViewException("$file not found!", 500);
         }
     }
 
@@ -37,7 +34,7 @@ class View
             extract($params, EXTR_OVERWRITE);
             require_once $file;
         } else {
-            throw new ViewException("$file not found!");
+            throw new ViewException("$file not found!", 500);
         }
     }
 

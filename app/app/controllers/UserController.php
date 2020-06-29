@@ -5,10 +5,12 @@ namespace App\Controllers;
 use App\Services\AnswerService;
 use App\Services\QuizService;
 use App\Services\UserService;
+use Core\Http\Request;
+use Core\Http\Response;
 use DI\Container;
 use GUMP;
 
-class UserController extends Controller
+class UserController
 {
     private UserService $userService;
     private QuizService $quizService;
@@ -21,22 +23,23 @@ class UserController extends Controller
         $this->answerService = $container->get('AnswerService');
     }
 
-    public function registerAction(): void
+    public function registerAction(): Response
     {
         $quizzes = $this->quizService->getAll();
 
-        $this->view(
-            'user/register',
-            [
-                'quizzes' => $quizzes,
-            ]
-        );
+        return (new Response)
+            ->responseHtml(
+                'user/register',
+                [
+                    'quizzes' => $quizzes,
+                ]
+            );
     }
 
-    public function saveAction(array $request): void
+    public function saveAction(Request $request): Response
     {
         $is_valid = GUMP::is_valid(
-            $request['payload'],
+            $request->payload,
             [
                 'name' => 'required',
                 'quiz' => 'required',
@@ -44,39 +47,42 @@ class UserController extends Controller
         );
 
         if (true === $is_valid) {
-            $user = $this->userService->save($request['payload']['name']);
+            $user = $this->userService->save($request->payload['name']);
 
-            $this->viewJson(
-                [
-                    'is_valid' => true,
-                    'user' => $user,
-                ]
-            );
-        } else {
-            $this->viewJson(
+            return (new Response)
+                ->responseJson(
+                    [
+                        'is_valid' => true,
+                        'user' => $user,
+                    ]
+                );
+        }
+
+        return (new Response)
+            ->responseJson(
                 [
                     'is_valid' => false,
                     'messages' => $is_valid,
                 ]
             );
-        }
     }
 
-    public function resultAction(array $request, array $slugs): void
+    public function resultAction(Request $request, $id, $quizId): Response
     {
-        $userId = (int)$slugs['id'];
-        $quizId = (int)$slugs['quiz_id'];
+        $userId = (int)$id;
+        $quizId = (int)$quizId;
 
         $name = $this->userService->getNameById($userId);
         $correctAnswer = $this->answerService->getUserCorrectAnswersCount($userId, $quizId);
         $totalQuestion = $this->answerService->getUserAnsweredQuestionsCount($userId, $quizId);
 
-        $this->viewJson(
-            [
-                'name' => $name,
-                'total' => $totalQuestion,
-                'correct' => $correctAnswer
-            ]
-        );
+        return (new Response)
+            ->responseJson(
+                [
+                    'name' => $name,
+                    'total' => $totalQuestion,
+                    'correct' => $correctAnswer
+                ]
+            );
     }
 }

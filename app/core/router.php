@@ -3,20 +3,20 @@
 namespace Core;
 
 use Core\Exceptions\RouteException;
+use Core\Http\Request;
 use DI\Container;
 
 class Router
 {
+    private const CONTROLLER_PATH = "\App\Controllers\\";
+
     private Container $container;
-
     private array $routes = [];
-
-    private string $controllerPath = "\App\Controllers\\";
 
     public function __construct(Container $container, array $routes)
     {
-        $this->container = $container;    
-        $this->routes = $routes;    
+        $this->container = $container;
+        $this->routes = $routes;
     }
 
     public function setRoutes()
@@ -40,25 +40,26 @@ class Router
 
         if (empty($selectedRoute)) {
             foreach ($this->routes as $route) {
-                $isMatch = FALSE;
+                $isMatch = false;
                 $routeParts = explode('/', $route['route']);
                 unset($routeParts[0]);
                 for ($i = 1; $i <= $uriPartsCount; $i++) {
-                    if (":" == substr( $routeParts[$i], 0, 1 )) {
-                        $dynamicSlug = str_replace(':', '', $routeParts[$i]);
-                        $dynamicSlugs[$dynamicSlug] = $uriParts[$i];
-                        $isMatch = TRUE;
-                    } else {
-                        if ($routeParts[$i] == $uriParts[$i]) {
-                            $isMatch = TRUE;
-                        } else {
-                            $isMatch = FALSE;
-                            break;
-                        }
+                    if (":" == substr($routeParts[$i], 0, 1)) {
+                        $dynamicSlugs[] = $uriParts[$i];
+                        $isMatch = true;
+                        continue;
                     }
+
+                    if ($routeParts[$i] == $uriParts[$i]) {
+                        $isMatch = true;
+                        continue;
+                    }
+
+                    $isMatch = false;
+                    break;
                 }
-    
-                if (TRUE === $isMatch) {
+
+                if (true === $isMatch) {
                     $selectedRoute = $route;
                     break;
                 }
@@ -66,42 +67,24 @@ class Router
         }
 
         if (empty($selectedRoute)) {
-            throw new RouteException("The request is not found!");
+            throw new RouteException('Request not found!', 404);
         }
 
-        $request = $this->getRequest();
+        $controllerName = self::CONTROLLER_PATH . $selectedRoute['controller'] . 'Controller';
+        if (!class_exists($controllerName)) {
+            throw new RouteException('Controller not found!', 500);
+        }
 
-        $controllerName = $this->controllerPath . $selectedRoute['controller'] . 'Controller';
         $actionName = $selectedRoute['action'] . 'Action';
 
         $controller = new $controllerName($this->container);
-        $controller->$actionName($request, $dynamicSlugs);
-    }
 
-    private function getRequest()
-    {
-        $request = [
-            'payload' => $this->getRequestPayload(),
-            'get' => $_GET,
-            'post' => $_POST,
-        ];
-
-        $request = filter_var_array($request, FILTER_SANITIZE_STRING);
-
-        unset($_GET);
-        unset($_POST);
-        unset($_REQUEST);
-
-        return $request;
-    }
-
-    private function getRequestPayload(): array
-    {
-        $jsonStr = file_get_contents('php://input');
-        if (empty($jsonStr)) {
-            return [];
+        if (!method_exists($controller, $actionName)) {
+            throw new RouteException('Method not found!', 500);
         }
 
-        return json_decode($jsonStr, true);
+        $request = (new Request())->create();
+
+        $controller->$actionName($request, ...$dynamicSlugs);
     }
 }

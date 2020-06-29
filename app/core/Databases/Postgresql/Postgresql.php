@@ -3,6 +3,7 @@
 namespace Core\Databases\Postgresql;
 
 use Core\Databases\Database;
+use Core\Exceptions\DatabaseException;
 
 final class Postgresql implements Database
 {
@@ -11,7 +12,7 @@ final class Postgresql implements Database
     public static function getInstance(string $host, string $database, string $user, string $password)
     {
         if (null === self::$db) {
-            // Make PostgreSQL connection
+            throw new DatabaseException('Provide PostgreSQL connection.');
         }
 
         return self::$db;
