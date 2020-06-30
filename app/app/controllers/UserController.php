@@ -46,23 +46,24 @@ class UserController
             ]
         );
 
-        if (true === $is_valid) {
-            $user = $this->userService->save($request->payload['name']);
-
+        if (true !== $is_valid) {
             return (new Response)
                 ->responseJson(
                     [
-                        'is_valid' => true,
-                        'user' => $user,
-                    ]
+                        'is_valid' => false,
+                        'messages' => $is_valid,
+                    ],
+                    400
                 );
         }
+
+        $user = $this->userService->save($request->payload['name']);
 
         return (new Response)
             ->responseJson(
                 [
-                    'is_valid' => false,
-                    'messages' => $is_valid,
+                    'is_valid' => true,
+                    'user' => $user,
                 ]
             );
     }

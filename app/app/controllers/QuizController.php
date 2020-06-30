@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Services\AnswerService;
 use App\Services\QuestionService;
+use Core\Exceptions\ResponseException;
 use Core\Http\Request;
 use Core\Http\Response;
 use DI\Container;
@@ -33,6 +34,10 @@ class QuizController
         } else {
             $question = $this->questionService->getFirstQuestionByQuizId($quizId);
             $progressRate = 0;
+        }
+
+        if (!$question) {
+            throw new ResponseException('Question not found.');
         }
 
         if (!empty($question)) {
@@ -66,7 +71,8 @@ class QuizController
                     [
                         'is_valid' => false,
                         'messages' => $isValid,
-                    ]
+                    ],
+                    400
                 );
         }
 
@@ -78,27 +84,28 @@ class QuizController
         $isRelated = $this->answerService
             ->checkIfAnswerRelatedToQuizAndQuestion($answerId, $questionId, $quizId);
 
-        if (true === $isRelated) {
+        if (true !== $isRelated) {
             return (new Response)
                 ->responseJson(
                     [
-                        'is_valid' => true,
-                        'data' => $this->answerService
-                            ->save(
-                                $userId,
-                                $quizId,
-                                $questionId,
-                                $answerId
-                            )
-                    ]
+                        'is_valid' => false,
+                        'messages' => 'The answer does not belong to the question.',
+                    ],
+                    400
                 );
         }
 
         return (new Response)
             ->responseJson(
                 [
-                    'is_valid' => false,
-                    'messages' => 'The answer does not belong to the question.',
+                    'is_valid' => true,
+                    'data' => $this->answerService
+                        ->save(
+                            $userId,
+                            $quizId,
+                            $questionId,
+                            $answerId
+                        )
                 ]
             );
     }

@@ -22,10 +22,10 @@ class QuestionService
         return round((($answeredQuestionCount * 100) / $totalAnswers), 0);
     }
 
-    public function getFirstQuestionByQuizId(int $quizId): array
+    public function getFirstQuestionByQuizId(int $quizId): ?array
     {
         return $this->questionRepository
-            ->getByRelationId('quiz_id', $quizId);
+            ->getByRelationId('quiz_id', $quizId) ?: null;
     }
 
     public function getFirstQuestionByQuizIdGreaterThan(int $id, int $quizId): ?array
