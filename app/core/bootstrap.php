@@ -7,8 +7,11 @@ use Core\Exceptions\ConfigException;
 use Core\Exceptions\RouteException;
 use Core\Router\Router;
 use DI\Container;
-use Dotenv\Exception\InvalidPathException;
 
+/**
+ * Class Bootstrap
+ * @package Core
+ */
 class Bootstrap
 {
     /**
@@ -17,7 +20,7 @@ class Bootstrap
      */
     public function run(): void
     {
-        require __DIR__ . '/Helpers/functions.php';
+        require __DIR__ . '/Helpers/Helpers.php';
 
         $this->loadEnv();
         $this->registerErrorHandlers();
@@ -28,18 +31,14 @@ class Bootstrap
 
     private function loadEnv()
     {
-        try {
-            $envVars = require_once __DIR__ . '/../env.php';
-            if (!is_array($envVars) || !$envVars) {
-                throw new ConfigException('Environment file not found or empty.');
-            }
+        $envVars = require_once __DIR__ . '/../env.php';
+        if (!is_array($envVars) || !$envVars) {
+            throw new ConfigException('Environment file not found or empty.');
+        }
 
-            foreach ($envVars as $var => $value) {
-                $var = strtoupper($var);
-                putenv("$var=" . $value);
-            }
-        } catch (InvalidPathException $e) {
-            die('Environment file is not set.');
+        foreach ($envVars as $var => $value) {
+            $var = strtoupper($var);
+            putenv("$var=" . $value);
         }
     }
 

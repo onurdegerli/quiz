@@ -5,6 +5,10 @@ namespace Core\Databases\Postgresql;
 use Core\Databases\Database;
 use Core\Exceptions\DatabaseException;
 
+/**
+ * Class Postgresql
+ * @package Core\Databases\Postgresql
+ */
 final class Postgresql implements Database
 {
     static $db = null;

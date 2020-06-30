@@ -16,6 +16,12 @@ use Core\Exceptions\DatabaseException;
 use DI\Container;
 use DI\ContainerBuilder;
 
+/**
+ * Class Dependency
+ * @package Core\Dependency
+ *
+ * TODO: This is the only 3rd party application is installed.
+ */
 class Dependency
 {
     /**

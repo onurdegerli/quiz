@@ -7,6 +7,10 @@ use Core\Exceptions\DatabaseException;
 use Exception;
 use PDO;
 
+/**
+ * Class Mysql
+ * @package Core\Databases\Mysql
+ */
 final class Mysql implements Database
 {
     static $db = null;

@@ -4,6 +4,10 @@ namespace Core\View;
 
 use Core\Exceptions\ViewException;
 
+/**
+ * Class View
+ * @package Core\View
+ */
 class View
 {
     // TODO: These are not look OK here. Some refactoring necessary tho.
