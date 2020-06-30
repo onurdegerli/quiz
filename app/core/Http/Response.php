@@ -3,7 +3,7 @@
 namespace Core\Http;
 
 use Core\Exceptions\ViewException;
-use Core\View;
+use Core\View\View;
 
 class Response
 {

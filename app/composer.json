@@ -6,7 +6,6 @@
         "fzaninotto/faker": "^1.9.1",
         "php-di/php-di": "^6.2.1",
         "wixel/gump": "dev-master",
-        "vlucas/phpdotenv": "^5.0@dev",
         "symfony/yaml": "^5.2@dev"
     },
     "autoload": {

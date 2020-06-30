@@ -17,7 +17,7 @@ It is a simple PHP application which runs with Docker from scratch.
 
 ```cd ~/quiz```
 
-3 - Under the `app` folder, copy `.env.example` as `.env` and update the configurations for your local environment.
+3 - Under the `app` folder, copy `env.example.php` as `env.php` and update the configurations for your local environment.
 
 4 - Under the `app` folder, copy `phinx.yml.example` as `phinx.yml` and update the configurations for your local environment.
 

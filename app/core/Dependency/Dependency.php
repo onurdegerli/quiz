@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Core;
+namespace Core\Dependency;
 
 use App\Repositories\AnswerRepository;
 use App\Repositories\QuestionRepository;
@@ -12,24 +12,29 @@ use App\Services\QuestionService;
 use App\Services\QuizService;
 use App\Services\UserService;
 use Core\Databases\ConnectionFactory;
+use Core\Exceptions\DatabaseException;
 use DI\Container;
 use DI\ContainerBuilder;
 
 class Dependency
 {
+    /**
+     * @return Container
+     * @throws DatabaseException
+     */
     public function run(): Container
     {
         $builder = new ContainerBuilder();
         $container = $builder->build();
 
-        $databaseConnection = (new ConnectionFactory())->get($_ENV['DB_CONNECTION']);
+        $databaseConnection = (new ConnectionFactory())->get(getenv('DB_CONNECTION'));
         $container->set(
             'db',
             $databaseConnection::getInstance(
-                $_ENV['DB_HOST'],
-                $_ENV['DB_DATABASE'],
-                $_ENV['DB_USER'],
-                $_ENV['DB_PASSWORD']
+                getenv('DB_HOST'),
+                getenv('DB_DATABASE'),
+                getenv('DB_USER'),
+                getenv('DB_PASSWORD')
             )
         );
 

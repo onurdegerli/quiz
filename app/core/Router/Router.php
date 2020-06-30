@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Core;
+namespace Core\Router;
 
 use Core\Exceptions\RouteException;
 use Core\Http\Request;

@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Services\AnswerService;
 use App\Services\QuestionService;
-use Core\Exceptions\ResponseException;
 use Core\Http\Request;
 use Core\Http\Response;
 use DI\Container;
@@ -21,26 +20,22 @@ class QuizController
         $this->answerService = $container->get('AnswerService');
     }
 
+    /**
+     * @param Request $request
+     * @param $quizId
+     * @return Response
+     */
     public function questionAction(Request $request, $quizId): Response
     {
         $quizId = (int)$quizId;
+        $questionId = isset($request->get['current'])
+            ? (int)$request->get['current']
+            : null;
 
-        if (!empty($request->get['current'])) {
-            $questionId = (int)$request->get['current'];
+        $question = $this->questionService->getQuestion($quizId, $questionId);
+        $progressRate = $this->questionService->getProgressRate($quizId, $questionId);
 
-            $question = $this->questionService
-                ->getFirstQuestionByQuizIdGreaterThan($questionId, $quizId);
-            $progressRate = $this->questionService->getProgressRate($questionId, $quizId);
-        } else {
-            $question = $this->questionService->getFirstQuestionByQuizId($quizId);
-            $progressRate = 0;
-        }
-
-        if (!$question) {
-            throw new ResponseException('Question not found.');
-        }
-
-        if (!empty($question)) {
+        if ($question) {
             $question['answers'] = $this->answerService->getByQuestionId($question['id']);
         }
 

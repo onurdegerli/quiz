@@ -1,4 +1,4 @@
 .idea/
 app/vendor
-app/.env
+app/env.php
 app/phinx.yml

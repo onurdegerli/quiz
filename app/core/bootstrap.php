@@ -2,22 +2,25 @@
 
 namespace Core;
 
+use Core\Dependency\Dependency;
+use Core\Exceptions\ConfigException;
 use Core\Exceptions\RouteException;
+use Core\Router\Router;
 use DI\Container;
-use Dotenv\Dotenv;
 use Dotenv\Exception\InvalidPathException;
 
 class Bootstrap
 {
     /**
+     * @throws ConfigException
      * @throws RouteException
      */
     public function run(): void
     {
+        require __DIR__ . '/Helpers/functions.php';
+
         $this->loadEnv();
         $this->registerErrorHandlers();
-
-        require __DIR__ . '/functions.php';
 
         $containerBuilder = $this->loadDependencies();
         $this->loadRoutes($containerBuilder);
@@ -26,7 +29,15 @@ class Bootstrap
     private function loadEnv()
     {
         try {
-            Dotenv::createMutable(__DIR__ . '/../')->load();
+            $envVars = require_once __DIR__ . '/../env.php';
+            if (!is_array($envVars) || !$envVars) {
+                throw new ConfigException('Environment file not found or empty.');
+            }
+
+            foreach ($envVars as $var => $value) {
+                $var = strtoupper($var);
+                putenv("$var=" . $value);
+            }
         } catch (InvalidPathException $e) {
             die('Environment file is not set.');
         }
@@ -37,12 +48,12 @@ class Bootstrap
         error_reporting(E_ALL | ~E_NOTICE);
 
         // TODO: a logging service(MONOLOG, etc) might be implemented.
-
-        if ($_ENV['DEBUG'] === 'true') {
+        if (getenv('DEBUG') === true) {
             ini_set('display_errors', '1');
         } else {
             ini_set('display_errors', '0');
         }
+        ini_set('display_errors', '1');
     }
 
     private function loadDependencies(): Container

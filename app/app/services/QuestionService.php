@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\QuestionException;
 use App\Repositories\QuestionRepository;
 
 class QuestionService
@@ -13,8 +14,26 @@ class QuestionService
         $this->questionRepository = $questionRepository;
     }
 
-    public function getProgressRate(int $questionId, int $quizId): float
+    /**
+     * @param int $quizId
+     * @param int|null $questionId
+     * @return array|null
+     */
+    public function getQuestion(int $quizId, ?int $questionId)
     {
+        if ($questionId) {
+            return $this->getFirstQuestionByQuizIdGreaterThan($questionId, $quizId);
+        }
+
+        return $this->getFirstQuestionByQuizId($quizId);
+    }
+
+    public function getProgressRate(int $quizId, ?int $questionId): float
+    {
+        if (!$questionId) {
+            return 0;
+        }
+
         $totalAnswers = $this->countQuestionByQuizId($quizId);
         $remainingQuestionCount = $this->countRemainingQuestionByQuizId($questionId, $quizId);
         $answeredQuestionCount = $totalAnswers - $remainingQuestionCount;
